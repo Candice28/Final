@@ -6,7 +6,7 @@
 select id, name, space, city, price
 from "Airbnb_listings"
 where room_type = 'Private room' and
-space is not null and ltrim(regexp_replace(price, ',', ''), '$')::numeric < 100
+  space is not null and ltrim(regexp_replace(price, ',', ''), '$')::numeric < 100
 
 说明
 regexp_replace(price, ',', '')：这是一个正则表达式替换函数，作用是将price字段中的所有逗号(,)替换为空字符，也就是删除所有逗号。
@@ -29,4 +29,14 @@ from "Airbnb_listings"
 IMMUTABLE：规定函数在相同的输入值上总是返回相同的结果
 
 
-2.
+2.括号的重要性，SQL中，默认AND运算符的优先级高于OR运算符。这意味着，如果没有使用括号，此查询将会先评估AND条件，然后再将OR条件应用于整个结果集
+
+select id, name, space, city, state, price
+from "Airbnb_listings"
+where room_type = 'Private room' and
+  space is not null and (state = 'MD' OR state = 'DC')
+
+3.
+
+
+  

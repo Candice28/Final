@@ -68,4 +68,9 @@ description like  '%bedroom'："bedroom" 前可以有任意数量的字符，但
 select id, description, notes, city, price 
 from "Airbnb_listings" 
 where description like '%walk%museum%';   这个条件用于筛选出那些 description 字段中含有 "walk" 和 "museum" 这两个词的记录，且这两个词之间可以有任意字符
+
+select id, description, weekly_price 
+from "Airbnb_listings" 
+where weekly_price like '$_,%';           这个条件用于筛选 weekly_price 字段的值。$：代表货币金额的美元符号。'_'：代表一个任意字符，这里用来代表价格中千位的数字
+                                          ','：直接表示价格中的逗号，用于格式上的逗号，如美元的表示法中的千位分隔符。 %：代表任意数量的字符，这里用来匹配价格的百位、十位和个位数字
   

@@ -46,8 +46,26 @@ select substring(host_url from 35 for 4)   从 `host_url` 字段的第35个字�
 from "Airbnb_listings"
 where substring(host_url,35,2) = '12';     从 host_url 字段中从第35个字符开始截取长度为2的字符串，并且要等于12
 
-4.
+4.Compare strings and substrings
+（1）String可以使用等于（=）和不等于（!=）运算符来进行比较
+（2）为了进行部分匹配，我们使用 LIKE 操作符。有两个保留字符用于此操作：
+
+（3）'%' 用于匹配任意数量的字符
+    '_' 用于匹配单个任意字符
+如果这些字符出现在你的string value中，你需要使用（'\'）来转义
+
+select id, description, notes, city, price from "Airbnb_listings"
+where (description ilike '%bedroom%' OR description ilike '%br%') and
+      (description ilike '%smoking%' OR notes ilike '%smoking%');
 
 
+description like '%bedroom%'：这个条件匹配任何在 description 字段中包含 "bedroom" 文本的记录，不论 "bedroom" 前后是否有其他字符。例如，"Nice bedroom in the center" 和 "The room for rent is a part of a larger bedroom apartment" 都会匹配
 
+description like 'bedroom%'："bedroom" 后可以有任意数量的字符，但之前不能有其他字符。例如，"Bedroom available for rent" 会匹配，但 "Nice bedroom in the center" 则不会匹配，因为 "bedroom" 前面有其他文字。
+
+description like  '%bedroom'："bedroom" 前可以有任意数量的字符，但之后不能有其他字符
+
+select id, description, notes, city, price 
+from "Airbnb_listings" 
+where description like '%walk%museum%';   这个条件用于筛选出那些 description 字段中含有 "walk" 和 "museum" 这两个词的记录，且这两个词之间可以有任意字符
   

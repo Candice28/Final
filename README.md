@@ -42,9 +42,12 @@ SELECT substring(listing_url from 35)    从 listing_url 字段的第35个字符
 from "Airbnb_listings"       
 where summary is null;
 
-select substring(host_url from 35 for 4)
+select substring(host_url from 35 for 4)   从 `host_url` 字段的第35个字符开始，截取长度为4的子串
 from "Airbnb_listings"
-where substring(host_url,35,2) = '12';
+where substring(host_url,35,2) = '12';     从 host_url 字段中从第35个字符开始截取长度为2的字符串，并且要等于12
+
+4.
+
 
 
   

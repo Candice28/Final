@@ -36,7 +36,15 @@ from "Airbnb_listings"
 where room_type = 'Private room' and
   space is not null and (state = 'MD' OR state = 'DC')
 
-3.
+3.substring
+
+SELECT substring(listing_url from 35)    从 listing_url 字段的第35个字符开始截取直到字段的末尾
+from "Airbnb_listings"       
+where summary is null;
+
+select substring(host_url from 35 for 4)
+from "Airbnb_listings"
+where substring(host_url,35,2) = '12';
 
 
   

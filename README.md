@@ -108,4 +108,13 @@ count(): 计算表中符合特定条件的行数。例如 SELECT count(*) FROM t
 sum(): 计算某列数值的总和。例如 SELECT sum(column_name) FROM table_name 会返回该列所有行的数值总和。
 avg(): 计算某列数值的平均值。例如 SELECT avg(column_name) FROM table_name 会返回该列所有行的平均数值。
 这些函数通常在 SELECT 语句中使用，可以直接作用于列名或者表达式。聚合函数特别的地方在于它们通常用在包含 GROUP BY 子句的查询中，来计算分组的结果
+
+7.select city, property_type, room_type, count(*), round(avg(conv_price(price)),3) as avgPrice, round(stddev(conv_price(price)),3) as stddevPrice,
+       max(conv_price(price)) as maxPrice, min(conv_price(price)) as minPrice
+from "Airbnb_listings"
+where price is not null
+group by city, property_type, room_type
+having count(*) > 5                           这个HAVING子句用于筛选那些分组后记录数大于5的组，这意味着只有当某个特定的城市、房产类型和房间类型组合拥有超过5个列表时，才会包含在结果中
+order by city asc, property_type desc;
+
   

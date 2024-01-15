@@ -73,4 +73,39 @@ select id, description, weekly_price
 from "Airbnb_listings" 
 where weekly_price like '$_,%';           这个条件用于筛选 weekly_price 字段的值。$：代表货币金额的美元符号。'_'：代表一个任意字符，这里用来代表价格中千位的数字
                                           ','：直接表示价格中的逗号，用于格式上的逗号，如美元的表示法中的千位分隔符。 %：代表任意数量的字符，这里用来匹配价格的百位、十位和个位数字
+
+5. 使用了连接运算符(||)来将不同的字段和字符串文字连接起来，以创建一个格式化的报告字符串。AS report将这个长字符串的结果重命名为report。
+
+select 'Listing ID ' || id || ', located at ' || street || ', has a daily rate of ' || price ||
+       ', a weekly rate of ' || weekly_price ||
+       ' and a monthly rate of ' || monthly_price AS report
+from "Airbnb_listings"
+where weekly_price is not null and monthly_price is not null
+
+6.函数
+数值函数 (Numeric functions):
+sqr(): 用于计算某个值的平方。
+sqrt(): 计算给定数值的平方根。
+abs(): 返回给定数值的绝对值。
+round(): 将数值四舍五入到指定的小数位数。例如 SELECT round(3.14159, 2) 将返回 3.14。
+
+字符串函数 (String functions):
+trim(): 去除字符串两端的空格。例如 SELECT trim(' hello ') 将返回 'hello'。
+lower(): 将字符串中的所有字符转换为小写。例如 SELECT lower('Hello') 将返回 'hello'。
+upper(): 将字符串中的所有字符转换为大写。例如 SELECT upper('Hello') 将返回 'HELLO'。
+
+类型转换函数 (Casting functions):
+::numeric: 将数据转换为数值类型。例如，将字符串 '123' 转换为数值类型可以使用 SELECT '123'::numeric。
+
+日期函数 (Date functions):
+date '2001-09-28' + interval '1 hour': 将日期和时间间隔相加。这个例子将给2001年9月28日增加一个小时，所以结果会是2001年9月28日的1小时后。
+
+用户自定义函数 (User defined functions):
+conv_price(): 这可能是一个在上一张幻灯片中定义的函数，用于转换或计算价格。使用方式会根据函数的具体定义而变化，但一般会是类似 SELECT conv_price(price) 的形式，其中 price 是传递给函数的参数。
+
+聚合函数 (Aggregate functions):
+count(): 计算表中符合特定条件的行数。例如 SELECT count(*) FROM table_name 会返回表中的总行数。
+sum(): 计算某列数值的总和。例如 SELECT sum(column_name) FROM table_name 会返回该列所有行的数值总和。
+avg(): 计算某列数值的平均值。例如 SELECT avg(column_name) FROM table_name 会返回该列所有行的平均数值。
+这些函数通常在 SELECT 语句中使用，可以直接作用于列名或者表达式。聚合函数特别的地方在于它们通常用在包含 GROUP BY 子句的查询中，来计算分组的结果
   

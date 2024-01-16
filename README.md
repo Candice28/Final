@@ -109,7 +109,20 @@ sum(): 计算某列数值的总和。例如 SELECT sum(column_name) FROM table_n
 avg(): 计算某列数值的平均值。例如 SELECT avg(column_name) FROM table_name 会返回该列所有行的平均数值。
 这些函数通常在 SELECT 语句中使用，可以直接作用于列名或者表达式。聚合函数特别的地方在于它们通常用在包含 GROUP BY 子句的查询中，来计算分组的结果
 
-7.select city, property_type, room_type, count(*), round(avg(conv_price(price)),3) as avgPrice, round(stddev(conv_price(price)),3) as stddevPrice,
+7.比较HAVING和WHERE
+WHERE子句：
+WHERE子句用于在数据被选出来之前对数据值进行过滤。
+它可以应用于任何属性，不管这个属性是否出现在SELECT子句中。
+WHERE子句在SELECT子句评估之前被应用，即在数据被分组之前进行过滤。
+
+HAVING子句：
+HAVING子句用于在数据分组并应用聚合函数之后，对这些聚合结果进行过滤。
+它只能用于聚合函数的结果上，比如COUNT()、SUM()、AVG()、MAX()、MIN()等。
+HAVING子句是作为SELECT子句的一部分，在生成最终结果关系之前应
+用，也就是说它过滤的是分组后的聚合结果，而不是原始数据记录。
+
+
+select city, property_type, room_type, count(*), round(avg(conv_price(price)),3) as avgPrice, round(stddev(conv_price(price)),3) as stddevPrice,
        max(conv_price(price)) as maxPrice, min(conv_price(price)) as minPrice
 from "Airbnb_listings"
 where price is not null
@@ -117,4 +130,18 @@ group by city, property_type, room_type
 having count(*) > 5                           这个HAVING子句用于筛选那些分组后记录数大于5的组，这意味着只有当某个特定的城市、房产类型和房间类型组合拥有超过5个列表时，才会包含在结果中
 order by city asc, property_type desc;
 
-  
+not(summary ilike '%museum%'): 选择摘要中不包含“museum”的记录（不区
+分大小写）。
+property_type != 'Bed & Breakfast': 选择物业类型不是“Bed & Breakfast”的记录
+
+8.
+(select distinct city, property_type, room_type
+from "Airbnb_listings"
+where price is not null
+order by city asc, property_type desc)
+EXCEPT
+(select distinct city, property_type, room_type
+from "Airbnb_listings"
+where price is not null                                                      价格不为空
+and not(summary ilike '%museum%') and property_type != 'Bed & Breakfast'     不包含摘要中有“museum”的字符串（不区分大小写），并且物业类型不是“Bed & Breakfast”的城市、物业类型和房间类型的组合，
+order by city asc, property_type desc);                                      并按城市升序和物业类型降序排序

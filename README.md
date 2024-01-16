@@ -138,10 +138,22 @@ property_type != 'Bed & Breakfast': 选择物业类型不是“Bed & Breakfast�
 (select distinct city, property_type, room_type
 from "Airbnb_listings"
 where price is not null
-order by city asc, property_type desc)
+order by city asc, property_type desc
+)
 EXCEPT
 (select distinct city, property_type, room_type
 from "Airbnb_listings"
 where price is not null                                                      价格不为空
-and not(summary ilike '%museum%') and property_type != 'Bed & Breakfast'     不包含摘要中有“museum”的字符串（不区分大小写），并且物业类型不是“Bed & Breakfast”的城市、物业类型和房间类型的组合，
-order by city asc, property_type desc);                                      并按城市升序和物业类型降序排序
+ and not(summary ilike '%museum%')                  不包含摘要中有“museum”的字符串（不区分大小写），
+ and property_type != 'Bed & Breakfast'             并且物业类型不是“Bed & Breakfast”的城市、物业类型和房间类型的组合，
+ order by city asc, property_type desc);                                并按城市升序和物业类型降序排序
+
+9.
+select A.id, B.date, B.comments
+from "Airbnb_listings" A, "Airbnb_reviews" B
+where A.id = B.listing_id
+order by random()                                将结果随机排序
+limit 10;
+
+10.
+limit 10;

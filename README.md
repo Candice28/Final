@@ -156,4 +156,20 @@ order by random()                                将结果随机排序
 limit 10;
 
 10.
-limit 10;
+CREATE TABLE customers (
+  customer_id INT GENERATED ALWAYS AS IDENTITY,    定义一个名为customer_id的列，数据类型为整型。GENERATED ALWAYS AS IDENTITY表示这是一个自增字段，数据库会自动为新插入的行生成连续的整数值
+  customer_name VARCHAR(255) NOT NULL,             定义一个名为customer_name的列，数据类型为可变字符型，最大长度255，且不允许为空
+  PRIMARY KEY(customer_id)
+);
+
+CREATE TABLE contacts (
+  contact_id INT GENERATED ALWAYS AS IDENTITY,
+  customer_id INT,
+  contact_name VARCHAR(255) NOT NULL,
+  phone VARCHAR(15),
+  email VARCHAR(100),
+  PRIMARY KEY(contact_id),
+  CONSTRAINT fk_customer                         定义一个名为fk_customer的外键约束，它指定contacts表中的customer_id列引用customers表中的customer_id列，确保contacts中的每个customer_id值都必须在
+  FOREIGN KEY(customer_id) REFERENCES customers(customer_id)        customers表中存在，从而维护两表之间的参照完整性。
+);
+
